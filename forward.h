@@ -10,7 +10,10 @@ class ForwardList : public List<T> {
         ForwardList() : List<T>() {}
 
         T front() {
-            // TODO
+            if (this->head){
+                return this->head->data; // sacar la data del head
+                }
+            throw out_of_range("no existe");
         }
 
         T back() {
@@ -18,7 +21,11 @@ class ForwardList : public List<T> {
         }
 
         void push_front(T value) {
-            // TODO
+            Node<T>* newNode = new Node<T>(value);
+            if (this->head) {
+                newNode->next = this->head;
+            }
+            this->head = newNode;
         }
 
         void push_back(T value) {
