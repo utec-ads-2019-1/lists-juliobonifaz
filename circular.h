@@ -9,23 +9,47 @@ class CircularLinkedList : public List<T> {
         CircularLinkedList() : List<T>() {}
 
         T front() {
-            // TODO
+                if (this->head){
+                        return this->head->data; // sacar la data del head
+                }
+                throw out_of_range("no exsite");
         }
 
         T back() {
-            // TODO
+                if (this->tail){
+                        return this->tail->data;
+                }
+
+                throw out_of_range("no exsite");
         }
 
         void push_front(T value) {
-            // TODO
+                Node<T>* newNode = new Node<T>(value);
+                if (this->head) {
+                        newNode->next = this->head;
+                } else {
+                        this->tail =newNode;
+                }
+                this->head = newNode;
         }
 
         void push_back(T value) {
-            // TODO
+                Node<T>* newNode = new Node<T>(value);
+                if (this->tail) {
+                        this->tail->next = newNode;
+                } else {
+                        this->head =newNode;
+                }
+                this->tail = newNode;
         }
 
         void pop_front() {
-            // TODO
+                Node<T> *temp =this->head;
+                if(this->head != tail) {
+                        this->head = this->head->next;
+                        temp->killSelf();
+                }
+                throw out_of_range("esta empty");
         }
 
         void pop_back() {
@@ -61,11 +85,11 @@ class CircularLinkedList : public List<T> {
         }
 
         BidirectionalIterator<T> begin() {
-            // TODO
+                return BidirectionalIterator(head);
         }
 
 	    BidirectionalIterator<T> end() {
-            // TODO
+                return  BidirectionalIterator(tail);
         }
 
         void merge(CircularLinkedList<T> list) {

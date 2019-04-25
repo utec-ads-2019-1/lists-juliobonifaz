@@ -1,6 +1,7 @@
 #ifndef FORWARD_H
 #define FORWARD_H
 
+#include "algorithm"
 #include "list.h"
 #include "iterators/forward_iterator.h"
 
@@ -13,55 +14,133 @@ class ForwardList : public List<T> {
             if (this->head){
                 return this->head->data; // sacar la data del head
                 }
-            throw out_of_range("no existe");
+            throw out_of_range("no exsite");
         }
 
         T back() {
-            // TODO
+            if (this->tail){
+                return this->tail->data;
+            }
+
+            throw out_of_range("no exsite");
         }
 
         void push_front(T value) {
             Node<T>* newNode = new Node<T>(value);
             if (this->head) {
                 newNode->next = this->head;
+            } else {
+                this->tail =newNode;
             }
             this->head = newNode;
         }
 
         void push_back(T value) {
-            // TODO
+            Node<T>* newNode = new Node<T>(value);
+            if (this->tail) {
+                this->tail->next = newNode;
+            } else {
+                this->head =newNode;
+            }
+            this->tail = newNode;
         }
 
         void pop_front() {
-            // TODO
+            Node<T> *temp =this->head;
+            if(this->head != nullptr) {
+                this->head = this->head->next;
+                temp->killSelf();
+            }
+            throw out_of_range("esta empty");
         }
 
         void pop_back() {
-            // TODO
+            Node<T> *temp =this->head;
+            while(temp->next!=nullptr){
+                temp = temp->next;
+            }
+            this->tail->killSelf();
+            temp->next= nullptr;
+            temp->killSelf();
+
         }
 
         T operator[](int index) {
-            // TODO
+            Node<T> *temp =this->head;
+            for( int a = 0; a < index; a = a + 1 ) {
+                temp =temp->next;
+                if (temp == nullptr){
+                    throw out_of_range("esta empty");
+                }
+            }
+            return temp->data;
         }
 
         bool empty() {
-            // TODO
+            if (this->head == nullptr){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
 
         int size() {
-            // TODO
+            int contas = 0;
+            Node<T> *temp =this->head;
+            while(temp!=nullptr){
+                temp = temp->next;
+                contas = contas +1;
+            }
+            return contas;
         }
 
         void clear() {
-            // TODO
+            while(head!=nullptr){
+                Node<T> *temp =this->head;
+                head= head->next;
+                temp->killSelf();
+            }
+
         }
 
         void sort() {
-            // TODO
+            Node<T> *temp =this->head;
+            int array [size()];
+            for (int i = 0; i < size() ; ++i) {
+                array[i] = temp->data;
+                if (temp->next!= nullptr) {
+                    temp = temp->next;
+                }
+            }
+            int n = sizeof(array)/sizeof(array[0]);
+            std::sort(array,array+n );
+
+            clear();
+
+            for (int j = 0; j < size() ; ++j) {
+                push_back(array[j]);
+            }
+
+
         }
     
         void reverse() {
-            // TODO
+            Node<T> *temp =this->head;
+            int array [size()];
+            for (int i = 0; i < size() ; ++i) {
+                array[i] = temp->data;
+                if (temp->next!= nullptr) {
+                    temp = temp->next;
+                }
+            }
+
+            clear();
+
+            for (int j = 0; j < size() ; ++j) {
+                push_front(array[j]);
+            }
+
         }
 
         string name() {
@@ -69,15 +148,19 @@ class ForwardList : public List<T> {
         }
 
         ForwardIterator<T> begin() {
-            // TODO
+
+            return ForwardIterator(head);
         }
 
 	    ForwardIterator<T> end() {
-            // TODO
+            return ForwardIterator(tail);
         }
 
         void merge(ForwardList<T> list) {
-            // TODO
+            for (int i = 0; i < sizeof(list); ++i) {
+                push_back(list[i]);
+
+            }
         }
 };
 

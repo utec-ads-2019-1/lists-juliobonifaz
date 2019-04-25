@@ -10,7 +10,7 @@ struct Node {
     explicit Node(T data) : data(data), next(nullptr), prev(nullptr) {};
 
     void killSelf() {
-        // TODO
+        delete this;
     }
 };
 
