@@ -148,11 +148,12 @@ class ForwardList : public List<T> {
         }
 
         ForwardIterator<T> begin() {
-
+            // Esto no va a compilar
             return ForwardIterator(head);
         }
 
 	    ForwardIterator<T> end() {
+            // Esto no va a compilar
             return ForwardIterator(tail);
         }
 
